@@ -38,7 +38,13 @@ junit allowEmptyResults: true, stdioRetention: '', testResults: 'dependency-chec
 
 			}
                 }
-            }
+
+stage('Unit Testing') {
+                                steps {
+                                        sh 'npm test'
+                                        }
+                                }            
+}
         }
     }
 }
