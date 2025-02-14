@@ -4,6 +4,7 @@ pipeline {
         nodejs  'nodejs-23.4'
   }
 
+  
   stages {
     stage('Installing Dependencies') {
       steps {
@@ -12,6 +13,7 @@ pipeline {
 
     }
      stage('NPM Dependency Audits') {
+      parallel {
       steps {
        sh '''
                 npm audit --audit-level=critical
@@ -32,5 +34,6 @@ pipeline {
        }
 
     }
-  }
+   }
+ }
 }
