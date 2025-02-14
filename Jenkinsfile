@@ -1,39 +1,38 @@
 pipeline {
-  agent any
-  tools {
-        nodejs  'nodejs-23.4'
-  }
-
-  
-  stages {
-    stage('Installing Dependencies') {
-      steps {
-       sh 'npm install --no-audit'
-       }
-
+    agent any
+    tools {
+        nodejs 'nodejs-23.4' // Ensure this tool name matches the Node.js installation configured in Jenkins
     }
-     stage('NPM Dependency Audits') {
-      parallel {
-      steps {
-       sh '''
-                npm audit --audit-level=critical
-                echo $?
-        '''
-       }
 
-    }
-	
-	stage('OWASP Dependencies Check') {
-      steps {
-        depenencyCheck additionalArguments: '''
-        --scan \'./\'
-		--out \'./\'
-		--format \'ALL\'
-		--prettyPrint''', odcInstallation: 'OWAS-DepCheck-12'
-      
-       }
+    stages {
+        stage('Installing Dependencies') {
+            steps {
+                sh 'npm install --no-audit'
+            }
+        }
 
+        stage('Security Checks') {
+            parallel {
+                stage('NPM Dependency Audits') {
+                    steps {
+                        sh '''
+                            npm audit --audit-level=critical
+                            echo $?
+                        '''
+                    }
+                }
+
+                stage('OWASP Dependencies Check') {
+                    steps {
+                        dependencyCheck additionalArguments: '''
+                            --scan ./
+                            --out ./
+                            --format ALL
+                            --prettyPrint
+                        ''', odcInstallation: 'OWAS-DepCheck-12' // Ensure this matches the OWASP Dependency-Check installation name in Jenkins
+                    }
+                }
+            }
+        }
     }
-   }
- }
 }
