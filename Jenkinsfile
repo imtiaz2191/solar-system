@@ -28,7 +28,7 @@ pipeline {
 		--out \'./\'
 		--format \'ALL\'
 		--prettyPrint''', odcInstallation: 'OWAS-DepCheck-12'
-        '''
+      
        }
 
     }
