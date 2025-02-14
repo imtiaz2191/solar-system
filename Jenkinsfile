@@ -1,8 +1,12 @@
 pipeline {
   agent any
+  tools	{
+	nodejs	'nodejs-23.4'
+  }
+  
   stages {
     stage('VM Node Version') {
-      steps {
+      step {
        sh '''
           node -v
           npm -v
