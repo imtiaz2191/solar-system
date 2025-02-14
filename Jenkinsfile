@@ -32,6 +32,10 @@ pipeline {
                         ''', odcInstallation: 'OWAS-DepCheck-12' // Ensure this matches the OWASP Dependency-Check installation name in Jenkins
                     dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: true
 
+publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './', reportFiles: 'dependency-check-jenkins.html', reportName: 'dependency check HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+
+
+
 			}
                 }
             }
